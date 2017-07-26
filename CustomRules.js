@@ -8,8 +8,8 @@ import Fiddler;
 // 2017/5/5 2:42
 // 被占用的话会临时失效~ 
 // INTRODUCTION
-//
-//
+// 2017/7/26 11:15
+// 修改新的脚本
 // This is the FiddlerScript Rules file, which creates some of the menu commands and
 // other features of Fiddler. You can edit this file to modify or add new commands.
 //
