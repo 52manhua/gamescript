@@ -641,6 +641,7 @@ commit 不含礼物信息,虽然 无用 ,剔除
             var str = Encoding.UTF8.GetString(buffer2);
 
             //save res
+            //2017/7/27 11:36
             /*
             var fso, tf;
             fso = new ActiveXObject("Scripting.FileSystemObject");
