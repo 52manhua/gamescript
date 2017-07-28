@@ -586,6 +586,7 @@ commit 不含礼物信息,虽然 无用 ,剔除
                 s=s+"/"+m[i];
             }
             
+            //升级经验 确认
             //MessageBox.Show(s);
             
             
