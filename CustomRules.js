@@ -673,6 +673,11 @@ commit 不含礼物信息,虽然 无用 ,剔除
             str = regex.Replace(str, "\"hp\":"+ '99999' +",");
             var regex = new Regex("\"current_hp\":(.+?),");
             str = regex.Replace(str,"\"current_hp\":99999,");
+            
+            //技能简释
+            //339 攻击中增加必杀
+            //20004 异常状态无效
+            
             //31983
             var regex = new Regex("31983,");
             str = regex.Replace(str, "31983,20023,20033,40010,60031,31963,20043,10003,31992,20004,10033,35989,220,399,");  
@@ -695,6 +700,10 @@ commit 不含礼物信息,虽然 无用 ,剔除
             //魔王
             var regex=new Regex("\\[31689,383\\],\"");
             str=regex.Replace(str, "[31689,383,31693,339,20079,20023,20033,20004,20063,31693],\"");                       
+            
+            //dull alice skill
+            var regex=new Regex("\\[103,31658\\],\"");
+            str=regex.Replace(str, "[103,339,31658],\""); 
             
             var regex = new Regex("31982,");
             //str = regex.Replace(str, "31982,3,20023,20033,20043,40010,60031,20004,31963,"); 
