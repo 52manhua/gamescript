@@ -703,7 +703,7 @@ commit 不含礼物信息,虽然 无用 ,剔除
             
             //dull alice skill
             var regex=new Regex("\\[103,31658\\],\"");
-            str=regex.Replace(str, "[103,339,31658],\""); 
+            str=regex.Replace(str, "[103,339,20004,31658],\""); 
             
             var regex = new Regex("31982,");
             //str = regex.Replace(str, "31982,3,20023,20033,20043,40010,60031,20004,31963,"); 
@@ -772,6 +772,9 @@ commit 不含礼物信息,虽然 无用 ,剔除
             var regex=new Regex("31693,31673,20043,20033,20023,31693,");
             str=regex.Replace(str, "31693,31673,20004,20043,20033,20023,31693,");
             
+            //dull alice skill
+            var regex=new Regex("\\[103,31658\\],\"");
+            str=regex.Replace(str, "[103,339,20004,31658],\""); 
             
             //血MM
             var regex=new Regex("31693,20023,20033,20063,31693,");
