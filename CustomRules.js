@@ -773,8 +773,8 @@ commit 不含礼物信息,虽然 无用 ,剔除
             str=regex.Replace(str, "31693,31673,20004,20043,20033,20023,31693,");
             
             //dull alice skill
-            var regex=new Regex("\\[103,31658\\],\"");
-            str=regex.Replace(str, "[103,339,20004,31658],\""); 
+            var regex=new Regex("\\[103,31658,65535\\],\"");
+            str=regex.Replace(str, "[103,339,20004,31658,65535],\""); 
             
             //血MM
             var regex=new Regex("31693,20023,20033,20063,31693,");
