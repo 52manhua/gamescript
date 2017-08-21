@@ -169,7 +169,14 @@ class Handlers
         // if (oSession.uriContains("/sandbox/")) {
         //     oSession.oFlags["x-breakrequest"] = "yup";	// Existence of the x-breakrequest flag creates a breakpoint; the "yup" value is unimportant.
         // }
-
+        
+        //MessageBox.Show(oSession["X-ClientIP"]);
+        //Trick of ip block
+        if (oSession["X-ClientIP"] == "::ffff:192.168.1.189"){
+            //MessageBox.Show("Trill ~");
+            //oSession.oRequest.FailSession(403,"NULL","NULL");
+            }
+        
         if ((null != gs_ReplaceToken) && (oSession.url.indexOf(gs_ReplaceToken)>-1)) {   // Case sensitive
             oSession.url = oSession.url.Replace(gs_ReplaceToken, gs_ReplaceTokenWith); 
         }
