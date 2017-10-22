@@ -409,6 +409,50 @@ class Handlers
         System.Array.Copy(resultArray, buffer2, toEncryptArray.Length);
         oSession.RequestBody = buffer2;
         }///end pvp result hack   
+                
+        ///raid result hack
+        if(oSession.fullUrl.IndexOf("raid/battle/commit") != -1) {
+        getkey();
+        
+        var bytes = oSession.requestBodyBytes;
+        var paddinglen = 32 - (bytes.Length % 32);
+        var buffer = new Byte[bytes.Length + paddinglen];
+        bytes.CopyTo(buffer, 0);
+        var rDel = new RijndaelManaged();
+        rDel.Key = key;
+        rDel.Mode = CipherMode.CFB;
+        rDel.Padding = PaddingMode.Zeros;
+        rDel.IV = IV;
+        var cTransform = rDel.CreateDecryptor();
+        var resultArray = cTransform.TransformFinalBlock(buffer, 0, buffer.Length);
+        var buffer2 = new Byte[bytes.Length];
+        System.Array.Copy(resultArray, buffer2, bytes.Length);
+        var str = Encoding.UTF8.GetString(buffer2);
+        //MessageBox.Show(str.substr(str.length-1000));
+        
+        //弱化 commit
+        /*regex = new Regex("\"d_character_serial\":26,");
+        str = regex.Replace(str, "\"d_character_serial\":60,");                
+        regex = new Regex("\"d_character_serial\":26,");
+        str = regex.Replace(str, "\"d_character_serial\":78,");                           */
+                        
+        //4 是继续 6 是击破
+        regex = new Regex("\"result_type\":(.+?)");
+        str = regex.Replace(str, "\"result_type\":6");
+        //regex = new Regex("\"total_dead\":(.+?),");
+        //str = regex.Replace(str, "\"total_dead\":8,");
+        //hp_rate
+        //regex = new Regex("\"hp_rate\":(.+?),");
+        //str = regex.Replace(str, "\"hp_rate\":0,");                 
+                        
+                        
+        var toEncryptArray = Encoding.UTF8.GetBytes(str);
+        cTransform = rDel.CreateEncryptor();
+        resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+        buffer2 = new Byte[toEncryptArray.Length];
+        System.Array.Copy(resultArray, buffer2, toEncryptArray.Length);
+        oSession.RequestBody = buffer2;
+        }///end raid result hack    
     }//
 
     // This function is called immediately after a set of request headers has
@@ -655,7 +699,9 @@ commit 不含礼物信息,虽然 无用 ,剔除
             // 关闭文件
             tf.Close();
             */
-            
+            //hack boss raid 自己挖坑
+            //var regex = new Regex(",\"hp\":\\d+,\"level");
+            //str = regex.Replace(str, ",\"hp\":5000,\"level");
             
             //愤怒小鸟 style
             if(str.IndexOf("\"target_serial\":9,")!=-1){
@@ -669,14 +715,17 @@ commit 不含礼物信息,虽然 无用 ,剔除
             //var regex = new Regex("\"defence\":(.+?),");
             //str = regex.Replace(str, "\"defence\":"+ defence +",");
             //hp
-            var regex = new Regex("\"hp\":(.+?),");
-            str = regex.Replace(str, "\"hp\":"+ '99999' +",");
+            var regex = new Regex("4,\"hp\":(.+?),");
+            str = regex.Replace(str, "4,\"hp\":"+ '99999' +",");
             var regex = new Regex("\"current_hp\":(.+?),");
             str = regex.Replace(str,"\"current_hp\":99999,");
             
             //技能简释
             //339 攻击中增加必杀
-            //20004 异常状态无效
+            //20004 异常状态无效 31992 效果延长
+            //10023 充电
+            //397 剑圣
+            //60031 盾防必杀吸收
             
             //31983
             var regex = new Regex("31983,");
@@ -689,21 +738,25 @@ commit 不含礼物信息,虽然 无用 ,剔除
             var regex = new Regex("40122,353,31671");
             str = regex.Replace(str, "40122,353,31671,20004,40010,60031,31963,10033");  
             
+            //盾白雪
+            var regex=new Regex("\\[40022,20073,38982,10052,31683,31663,31683,31663,31683\\],\"");
+            str=regex.Replace(str, "[40022,20073,38982,10052,31683,31663,31683,31663,31683,31693,339,10023,20079,20023,20033,20004,20063,31693,397,60031],\"");           
+          
             //血MM
             var regex=new Regex("31693,20023,20033,20063,31693,");
-            str=regex.Replace(str, "31693,339,20079,20023,20033,20004,20063,31693,");
+            str=regex.Replace(str, "31693,339,10023,20079,20023,20033,20004,20063,31693,");
             
             //妖精王混沌
-            var regex=new Regex("\\[451,57\\],\"");
-            str=regex.Replace(str, "[451,57,31693,339,20079,20023,20033,20004,20063,31693],\"");           
+            var regex=new Regex("\\[451,57,171,135,65,10031\\],\"");
+            str=regex.Replace(str, "[451,57,171,171,31693,339,10023,20079,20023,20033,20004,20063,31693,397],\"");           
             
             //魔王
-            var regex=new Regex("\\[31689,383\\],\"");
-            str=regex.Replace(str, "[31689,383,31693,339,20079,20023,20033,20004,20063,31693],\"");                       
+            var regex=new Regex("\\[31689,383,31681\\],\"");
+            str=regex.Replace(str, "[31689,383,31681,31693,339,20079,10023,20023,20033,20004,20063,31693,397],\"");                       
             
             //dull alice skill
-            var regex=new Regex("\\[103,31658\\],\"");
-            str=regex.Replace(str, "[103,339,20004,31658],\""); 
+            var regex=new Regex("\\[103,31658,51\\],\"");
+            str=regex.Replace(str, "[103,51,339,20004,20079,10023,31658,397,31992],\""); 
             
             var regex = new Regex("31982,");
             //str = regex.Replace(str, "31982,3,20023,20033,20043,40010,60031,20004,31963,"); 
@@ -717,6 +770,9 @@ commit 不含礼物信息,虽然 无用 ,剔除
             System.Array.Copy(resultArray, buffer2, toEncryptArray.Length);
             oSession.ResponseBody = buffer2;
         }
+        
+        
+        
         
         /* 修改 竞技场
         /
