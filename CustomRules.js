@@ -169,7 +169,14 @@ class Handlers
         // if (oSession.uriContains("/sandbox/")) {
         //     oSession.oFlags["x-breakrequest"] = "yup";	// Existence of the x-breakrequest flag creates a breakpoint; the "yup" value is unimportant.
         // }
-
+        
+        //MessageBox.Show(oSession["X-ClientIP"]);
+        //Trick of ip block
+        if (oSession["X-ClientIP"] == "::ffff:192.168.1.189"){
+            //MessageBox.Show("Trill ~");
+            //oSession.oRequest.FailSession(403,"NULL","NULL");
+            }
+        
         if ((null != gs_ReplaceToken) && (oSession.url.indexOf(gs_ReplaceToken)>-1)) {   // Case sensitive
             oSession.url = oSession.url.Replace(gs_ReplaceToken, gs_ReplaceTokenWith); 
         }
@@ -747,8 +754,13 @@ commit 不含礼物信息,虽然 无用 ,剔除
             str=regex.Replace(str, "31693,339,10023,20079,20023,20033,20004,20063,31693,");
             
             //妖精王混沌
+<<<<<<< HEAD
             var regex=new Regex("\\[451,57,171,135,65,10031\\],\"");
             str=regex.Replace(str, "[451,57,171,171,31693,339,10023,20079,20023,20033,20004,20063,31693,397],\"");           
+=======
+            var regex=new Regex("\\[451,57,51,135,65,10031\\],\"");
+            str=regex.Replace(str, "[451,57,31693,339,20079,20023,20033,20004,20063,31693,51,135,65,10031],\"");           
+>>>>>>> 211ff25409d64483c98a3155058bf24d37641564
             
             //魔王
             var regex=new Regex("\\[31689,383,31681\\],\"");
