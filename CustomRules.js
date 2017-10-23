@@ -727,7 +727,7 @@ commit 不含礼物信息,虽然 无用 ,剔除
             var regex = new Regex("\"current_hp\":(.+?),");
             str = regex.Replace(str,"\"current_hp\":99999,");
             
-            //技能简释
+            //技能简释 normalskill
             //339 攻击中增加必杀
             //20004 异常状态无效 31992 效果延长
             //10023 充电
@@ -837,8 +837,8 @@ commit 不含礼物信息,虽然 无用 ,剔除
             str=regex.Replace(str, "31693,31673,20004,20043,20033,20023,31693,");
             
             //dull alice skill
-            var regex=new Regex("\\[103,31658,65535\\],\"");
-            str=regex.Replace(str, "[103,339,20004,31658,65535],\""); 
+            var regex=new Regex("\\[103,31658,51\\],\"");
+            str=regex.Replace(str, "[103,339,20004,31658,51,65535,31983,43,489],\""); 
             
             //血MM
             var regex=new Regex("31693,20023,20033,20063,31693,");
