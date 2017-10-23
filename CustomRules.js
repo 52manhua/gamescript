@@ -419,7 +419,8 @@ class Handlers
                 
         ///raid result hack
         if(oSession.fullUrl.IndexOf("raid/battle/commit") != -1) {
-        getkey();
+        /*
+            getkey();
         
         var bytes = oSession.requestBodyBytes;
         var paddinglen = 32 - (bytes.Length % 32);
@@ -435,6 +436,7 @@ class Handlers
         var buffer2 = new Byte[bytes.Length];
         System.Array.Copy(resultArray, buffer2, bytes.Length);
         var str = Encoding.UTF8.GetString(buffer2);
+                        */
         //MessageBox.Show(str.substr(str.length-1000));
         
         //弱化 commit
@@ -444,22 +446,24 @@ class Handlers
         str = regex.Replace(str, "\"d_character_serial\":78,");                           */
                         
         //4 是继续 6 是击破
-        regex = new Regex("\"result_type\":(.+?)");
-        str = regex.Replace(str, "\"result_type\":6");
+        //regex = new Regex("\"result_type\":(.+?)");
+        //str = regex.Replace(str, "\"result_type\":6");
         //regex = new Regex("\"total_dead\":(.+?),");
         //str = regex.Replace(str, "\"total_dead\":8,");
         //hp_rate
         //regex = new Regex("\"hp_rate\":(.+?),");
         //str = regex.Replace(str, "\"hp_rate\":0,");                 
                         
-                        
+        /*                
         var toEncryptArray = Encoding.UTF8.GetBytes(str);
         cTransform = rDel.CreateEncryptor();
         resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
         buffer2 = new Byte[toEncryptArray.Length];
         System.Array.Copy(resultArray, buffer2, toEncryptArray.Length);
-        oSession.RequestBody = buffer2;
-        }///end raid result hack    
+        oSession.RequestBody = buffer2;*/
+        }///end raid result hack   
+
+                
     }//
 
     // This function is called immediately after a set of request headers has
@@ -766,6 +770,11 @@ commit 不含礼物信息,虽然 无用 ,剔除
             var regex=new Regex("\\[103,31658,51\\],\"");
             str=regex.Replace(str, "[103,51,339,20004,20079,10023,31658,397,398,31992,10052,31983,43,489],\""); 
             
+            //美女大剑贝尔
+            var regex=new Regex("\\[20033,31663\\],\"");
+            str=regex.Replace(str, "[20033,31663,51,339,20004,20079,10023,31658,397,398,31992,10052,31983,43,489],\""); 
+           
+            
             var regex = new Regex("31982,");
             //str = regex.Replace(str, "31982,3,20023,20033,20043,40010,60031,20004,31963,"); 
             //保守
@@ -837,7 +846,7 @@ commit 不含礼物信息,虽然 无用 ,剔除
             str=regex.Replace(str, "31693,31673,20004,20043,20033,20023,31693,");
             
             //dull alice skill
-            var regex=new Regex("\\[103,31658,51\\],\"");
+            var regex=new Regex("\\[103,31658,65535,51\\],\"");
             str=regex.Replace(str, "[103,339,20004,31658,51,65535,31983,43,489],\""); 
             
             //血MM
