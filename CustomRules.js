@@ -925,8 +925,8 @@ commit 不含礼物信息,虽然 无用 ,剔除
             var regex=new Regex("\"d_character_serial\":117,\"m_character_id\":5600142,\"level\":90,\"level_limit_break_count\":4,\"hp\":(.+?),\"attack\":1908,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":10650050,\"town_effect_value\":2750,\"visual_m_character_id\":5600142,\"current_hp\":(.+?),\"battle_ai_type\":null,\"equip_m_dress_id\":106")
             str=regex.Replace(str, "\"d_character_serial\":117,\"m_character_id\":5600142,\"level\":90,\"level_limit_break_count\":4,\"hp\":9287,\"attack\":1908,\"defence\":99999,\"clear_ordeal_flag\":3,\"m_weapon_id\":10650050,\"town_effect_value\":2750,\"visual_m_character_id\":5600142,\"current_hp\":9287,\"battle_ai_type\":null,\"equip_m_dress_id\":106");             
             //黑白天鹅
-            var regex=new Regex("\"d_character_serial\":71,\"m_character_id\":5700132,\"level\":90,\"level_limit_break_count\":4,\"hp\":(.+?),\"attack\":1693,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":790104,\"town_effect_value\":2750,\"visual_m_character_id\":5700132,\"current_hp\":(.+?),");
-            str=regex.Replace(str, "\"d_character_serial\":71,\"m_character_id\":5700132,\"level\":90,\"level_limit_break_count\":4,\"hp\":99999,\"attack\":1693,\"defence\":99999,\"clear_ordeal_flag\":3,\"m_weapon_id\":790104,\"town_effect_value\":2750,\"visual_m_character_id\":5700132,\"current_hp\":99999,")
+            var regex=new Regex("\"d_character_serial\":71,\"m_character_id\":5700132,\"level\":90,\"level_limit_break_count\":4,\"hp\":(.+?),\"attack\":1693,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":790104,\"town_effect_value\":2900,\"visual_m_character_id\":5700132,\"current_hp\":(.+?),");
+            str=regex.Replace(str, "\"d_character_serial\":71,\"m_character_id\":5700132,\"level\":90,\"level_limit_break_count\":4,\"hp\":99999,\"attack\":1693,\"defence\":99999,\"clear_ordeal_flag\":3,\"m_weapon_id\":790104,\"town_effect_value\":2900,\"visual_m_character_id\":5700132,\"current_hp\":99999,")
             
             var toEncryptArray = Encoding.UTF8.GetBytes(str);
             cTransform = rDel.CreateEncryptor();
