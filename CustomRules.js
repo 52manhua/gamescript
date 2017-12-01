@@ -372,6 +372,41 @@ class Handlers
             System.Array.Copy(resultArray, buffer2, toEncryptArray.Length);
             oSession.RequestBody = buffer2;
         }///end shop hack
+ 
+                
+        ///抽奖数量
+        if(oSession.fullUrl.IndexOf("api/gacha/execute") != -1) {
+        getkey();
+            
+        var bytes = oSession.requestBodyBytes;
+        var paddinglen = 32 - (bytes.Length % 32);
+        var buffer = new Byte[bytes.Length + paddinglen];
+        bytes.CopyTo(buffer, 0);
+        var rDel = new RijndaelManaged();
+        rDel.Key = key;
+        rDel.Mode = CipherMode.CFB;
+        rDel.Padding = PaddingMode.Zeros;
+        rDel.IV = IV;
+        var cTransform = rDel.CreateDecryptor();
+        var resultArray = cTransform.TransformFinalBlock(buffer, 0, buffer.Length);
+        var buffer2 = new Byte[bytes.Length];
+        System.Array.Copy(resultArray, buffer2, bytes.Length);
+        var str = Encoding.UTF8.GetString(buffer2);
+                        
+        //MessageBox.Show(str.substr(str.length-10));
+            
+        //replace 1 变成 10
+        /*异常                
+        regex = new Regex("\"payment_number\":1,\"request_counter");
+        str = regex.Replace(str, "\"payment_number\":10,\"request_counter");*/
+            
+        var toEncryptArray = Encoding.UTF8.GetBytes(str);
+        cTransform = rDel.CreateEncryptor();
+        resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+        buffer2 = new Byte[toEncryptArray.Length];
+        System.Array.Copy(resultArray, buffer2, toEncryptArray.Length);
+        oSession.RequestBody = buffer2;
+        }///end shop hack                
                 
         ///pvp result hack
         if(oSession.fullUrl.IndexOf("pvp/battle/commit") != -1) {
@@ -604,9 +639,41 @@ class Handlers
             System.Array.Copy(resultArray, buffer2, toEncryptArray.Length);
             oSession.ResponseBody = buffer2;
         }     
+/*抽奖修改*/
+        if(oSession.fullUrl.IndexOf("api/gacha/execute") != -1){
+
+            getkey();
+            
+            var bytes = oSession.responseBodyBytes;
+            var paddinglen = 32 - (bytes.Length % 32);
+            var buffer = new Byte[bytes.Length + paddinglen];
+            bytes.CopyTo(buffer, 0);
+            var rDel = new RijndaelManaged();
+            rDel.Key = key;
+            rDel.Mode = CipherMode.CFB;
+            rDel.Padding = PaddingMode.Zeros;
+            rDel.IV = IV;
+            var cTransform = rDel.CreateDecryptor();
+            var resultArray = cTransform.TransformFinalBlock(buffer, 0, buffer.Length);
+            var buffer2 = new Byte[bytes.Length];
+            System.Array.Copy(resultArray, buffer2, bytes.Length);
+            var str = Encoding.UTF8.GetString(buffer2);
+            
+            //写上喜欢的人物？
+            /*var regex = new Regex("\"m_character_id\":(.+?),\"result");
+            str=regex.Replace(str, "\"m_character_id\":15100122,\"result");*/
+            
+            
+            var toEncryptArray = Encoding.UTF8.GetBytes(str);
+            cTransform = rDel.CreateEncryptor();
+            resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+            buffer2 = new Byte[toEncryptArray.Length];
+            System.Array.Copy(resultArray, buffer2, toEncryptArray.Length);
+            oSession.ResponseBody = buffer2;
+        }       
+
         
 /*
-        
 获得 commit 的 response 的信息
 作为信息提示
 commit 不含礼物信息,虽然 无用 ,剔除
