@@ -799,7 +799,7 @@ commit 不含礼物信息,虽然 无用 ,剔除
             str = regex.Replace(str,"\"current_hp\":99999,");
             
             //技能简释 normalskill
-            //339 攻击中增加必杀
+            //339 攻击中增加必杀 533 攻击中恢复
             //20004 异常状态无效 31992 效果延长
             //10023 充电
             //397 剑圣 398 攻击 300%
@@ -996,12 +996,15 @@ commit 不含礼物信息,虽然 无用 ,剔除
             //xiuy
             var regex=new Regex("hp\":4644,\"attack\":1319,\"defence\":9,");
             str=regex.Replace(str, "hp\":4644,\"attack\":1319,\"defence\":9999,");                   
+            
             //血MM 
-            var regex=new Regex("\"hp\":5808,\"attack\":2010,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":290107,\"town_effect_value\":3000,\"visual_m_character_id\":5200122,\"current_hp\":9234");
-            str=regex.Replace(str, "\"hp\":5808,\"attack\":2010,\"defence\":999,\"clear_ordeal_flag\":3,\"m_weapon_id\":290107,\"town_effect_value\":3000,\"visual_m_character_id\":5200122,\"current_hp\":9234");             
+            var regex=new Regex("\"hp\":5808,\"attack\":2144,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":260011,\"town_effect_value\":3000,\"visual_m_character_id\":5200122,\"current_hp\":11324,");
+            str=regex.Replace(str, "\"hp\":5808,\"attack\":2144,\"defence\":9999,\"clear_ordeal_flag\":3,\"m_weapon_id\":260011,\"town_effect_value\":3000,\"visual_m_character_id\":5200122,\"current_hp\":11324,"); 
+            
             //混沌爱丽丝
             var regex=new Regex("\"d_character_serial\":117,\"m_character_id\":5600142,\"level\":90,\"level_limit_break_count\":4,\"hp\":(.+?),\"attack\":1908,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":10650050,\"town_effect_value\":2850,\"visual_m_character_id\":5600142,\"current_hp\":(.+?),\"battle_ai_type\":null,\"equip_m_dress_id\":106")
             str=regex.Replace(str, "\"d_character_serial\":117,\"m_character_id\":5600142,\"level\":90,\"level_limit_break_count\":4,\"hp\":9287,\"attack\":1908,\"defence\":99999,\"clear_ordeal_flag\":3,\"m_weapon_id\":10650050,\"town_effect_value\":2850,\"visual_m_character_id\":5600142,\"current_hp\":9287,\"battle_ai_type\":null,\"equip_m_dress_id\":106");             
+            
             //黑白天鹅
             var regex=new Regex("\"d_character_serial\":71,\"m_character_id\":5700132,\"level\":90,\"level_limit_break_count\":4,\"hp\":(.+?),\"attack\":1693,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":790104,\"town_effect_value\":3000,\"visual_m_character_id\":5700132,\"current_hp\":(.+?),");
             str=regex.Replace(str, "\"d_character_serial\":71,\"m_character_id\":5700132,\"level\":90,\"level_limit_break_count\":4,\"hp\":99999,\"attack\":1693,\"defence\":99999,\"clear_ordeal_flag\":3,\"m_weapon_id\":790104,\"town_effect_value\":3000,\"visual_m_character_id\":5700132,\"current_hp\":99999,")
