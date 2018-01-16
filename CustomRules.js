@@ -372,6 +372,41 @@ class Handlers
             System.Array.Copy(resultArray, buffer2, toEncryptArray.Length);
             oSession.RequestBody = buffer2;
         }///end shop hack
+ 
+                
+        ///抽奖数量
+        if(oSession.fullUrl.IndexOf("api/gacha/execute") != -1) {
+        getkey();
+            
+        var bytes = oSession.requestBodyBytes;
+        var paddinglen = 32 - (bytes.Length % 32);
+        var buffer = new Byte[bytes.Length + paddinglen];
+        bytes.CopyTo(buffer, 0);
+        var rDel = new RijndaelManaged();
+        rDel.Key = key;
+        rDel.Mode = CipherMode.CFB;
+        rDel.Padding = PaddingMode.Zeros;
+        rDel.IV = IV;
+        var cTransform = rDel.CreateDecryptor();
+        var resultArray = cTransform.TransformFinalBlock(buffer, 0, buffer.Length);
+        var buffer2 = new Byte[bytes.Length];
+        System.Array.Copy(resultArray, buffer2, bytes.Length);
+        var str = Encoding.UTF8.GetString(buffer2);
+                        
+        //MessageBox.Show(str.substr(str.length-10));
+            
+        //replace 1 变成 10
+        /*异常                
+        regex = new Regex("\"payment_number\":1,\"request_counter");
+        str = regex.Replace(str, "\"payment_number\":10,\"request_counter");*/
+            
+        var toEncryptArray = Encoding.UTF8.GetBytes(str);
+        cTransform = rDel.CreateEncryptor();
+        resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+        buffer2 = new Byte[toEncryptArray.Length];
+        System.Array.Copy(resultArray, buffer2, toEncryptArray.Length);
+        oSession.RequestBody = buffer2;
+        }///end shop hack                
                 
         ///pvp result hack
         if(oSession.fullUrl.IndexOf("pvp/battle/commit") != -1) {
@@ -604,9 +639,41 @@ class Handlers
             System.Array.Copy(resultArray, buffer2, toEncryptArray.Length);
             oSession.ResponseBody = buffer2;
         }     
+/*抽奖修改*/
+        if(oSession.fullUrl.IndexOf("api/gacha/execute") != -1){
+
+            getkey();
+            
+            var bytes = oSession.responseBodyBytes;
+            var paddinglen = 32 - (bytes.Length % 32);
+            var buffer = new Byte[bytes.Length + paddinglen];
+            bytes.CopyTo(buffer, 0);
+            var rDel = new RijndaelManaged();
+            rDel.Key = key;
+            rDel.Mode = CipherMode.CFB;
+            rDel.Padding = PaddingMode.Zeros;
+            rDel.IV = IV;
+            var cTransform = rDel.CreateDecryptor();
+            var resultArray = cTransform.TransformFinalBlock(buffer, 0, buffer.Length);
+            var buffer2 = new Byte[bytes.Length];
+            System.Array.Copy(resultArray, buffer2, bytes.Length);
+            var str = Encoding.UTF8.GetString(buffer2);
+            
+            //写上喜欢的人物？
+            /*var regex = new Regex("\"m_character_id\":(.+?),\"result");
+            str=regex.Replace(str, "\"m_character_id\":15100122,\"result");*/
+            
+            
+            var toEncryptArray = Encoding.UTF8.GetBytes(str);
+            cTransform = rDel.CreateEncryptor();
+            resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+            buffer2 = new Byte[toEncryptArray.Length];
+            System.Array.Copy(resultArray, buffer2, toEncryptArray.Length);
+            oSession.ResponseBody = buffer2;
+        }       
+
         
 /*
-        
 获得 commit 的 response 的信息
 作为信息提示
 commit 不含礼物信息,虽然 无用 ,剔除
@@ -732,7 +799,7 @@ commit 不含礼物信息,虽然 无用 ,剔除
             str = regex.Replace(str,"\"current_hp\":99999,");
             
             //技能简释 normalskill
-            //339 攻击中增加必杀533 攻击中回复
+            //339 攻击中增加必杀 533 攻击中恢复
             //20004 异常状态无效 31992 效果延长
             //10023 充电
             //397 剑圣 398 攻击 300%
@@ -765,6 +832,9 @@ commit 不含礼物信息,虽然 无用 ,剔除
             var regex=new Regex("\\[40002,499,50043,332,31683,31683,31663,31663,31663\\],\"");
             str=regex.Replace(str, "[40002,499,50043,332,31683,31683,31663,31663,31663"+ st +"20043],\"");           
           
+            //杖朱丽叶
+            var regex=new Regex("\\[343,373,20004,31993,31982,31683,20043,20023,20033\\],\"");
+            str=regex.Replace(str, "[343,373,20004,31993,31982,31683,20043,20023,20033"+ st +"20043],\"");                       
             
             //盾白雪
             var regex=new Regex("\\[40022,20073,38982,10052,31683,31663,31683,31663,31683\\],\"");
@@ -917,8 +987,8 @@ commit 不含礼物信息,虽然 无用 ,剔除
             str=regex.Replace(str, "\"defence\":"+ '9' +",");   
             
             //强化自己
-            var regex=new Regex("\"my_party_detail\":\{\"main_calc_union_list\":\\[\{\"slot_id\":1,\"union\":\{\"m_leading_character_id\":5,\"front_calc_character\":\{\"d_character_serial\":65,\"m_character_id\":5400102,\"level\":90,\"level_limit_break_count\":4,\"hp\":6192,\"attack\":1507,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":490007,\"town_effect_value\":2150,\"visual_m_character_id\":5400102,\"current_hp\":9380,\"battle_ai_type\":null,\"equip_m_dress_id\":null,");
-            str=regex.Replace(str, "\"my_party_detail\":{\"main_calc_union_list\":[{\"slot_id\":1,\"union\":{\"m_leading_character_id\":5,\"front_calc_character\":{\"d_character_serial\":65,\"m_character_id\":5400102,\"level\":90,\"level_limit_break_count\":4,\"hp\":9992,\"attack\":1507,\"defence\":99999,\"clear_ordeal_flag\":3,\"m_weapon_id\":490007,\"town_effect_value\":2150,\"visual_m_character_id\":5400102,\"current_hp\":9380,\"battle_ai_type\":null,\"equip_m_dress_id\":null,");            
+            var regex=new Regex("\"my_party_detail\":\{\"main_calc_union_list\":\\[\{\"slot_id\":1,\"union\":\{\"m_leading_character_id\":5,\"front_calc_character\":\{\"d_character_serial\":65,\"m_character_id\":5400102,\"level\":90,\"level_limit_break_count\":4,\"hp\":6192,\"attack\":1507,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":490007,\"town_effect_value\":2650,\"visual_m_character_id\":5400102,\"current_hp\":9380,\"battle_ai_type\":null,\"equip_m_dress_id\":null,");
+            str=regex.Replace(str, "\"my_party_detail\":{\"main_calc_union_list\":[{\"slot_id\":1,\"union\":{\"m_leading_character_id\":5,\"front_calc_character\":{\"d_character_serial\":65,\"m_character_id\":5400102,\"level\":90,\"level_limit_break_count\":4,\"hp\":9992,\"attack\":1507,\"defence\":99999,\"clear_ordeal_flag\":3,\"m_weapon_id\":490007,\"town_effect_value\":2650,\"visual_m_character_id\":5400102,\"current_hp\":9380,\"battle_ai_type\":null,\"equip_m_dress_id\":null,");            
             //var regex=new Regex("\"defence\":1395,");
             //str=regex.Replace(str, "\"defence\":"+ '9999' +",");     
             var regex=new Regex("hp\":4276,\"attack\":(.+?),\"defence\":9,");
@@ -926,15 +996,18 @@ commit 不含礼物信息,虽然 无用 ,剔除
             //xiuy
             var regex=new Regex("hp\":4644,\"attack\":1319,\"defence\":9,");
             str=regex.Replace(str, "hp\":4644,\"attack\":1319,\"defence\":9999,");                   
+            
             //血MM 
-            var regex=new Regex("\"hp\":5808,\"attack\":2010,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":290107,\"town_effect_value\":2900,\"visual_m_character_id\":5200122,\"current_hp\":9234");
-            str=regex.Replace(str, "\"hp\":5808,\"attack\":2010,\"defence\":999,\"clear_ordeal_flag\":3,\"m_weapon_id\":290107,\"town_effect_value\":2900,\"visual_m_character_id\":5200122,\"current_hp\":9234");             
+            var regex=new Regex("\"hp\":5808,\"attack\":2144,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":260011,\"town_effect_value\":3000,\"visual_m_character_id\":5200122,\"current_hp\":11324,");
+            str=regex.Replace(str, "\"hp\":5808,\"attack\":2144,\"defence\":99999,\"clear_ordeal_flag\":3,\"m_weapon_id\":260011,\"town_effect_value\":3000,\"visual_m_character_id\":5200122,\"current_hp\":11324,"); 
+            
             //混沌爱丽丝
-            var regex=new Regex("\"d_character_serial\":117,\"m_character_id\":5600142,\"level\":90,\"level_limit_break_count\":4,\"hp\":(.+?),\"attack\":1908,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":10650050,\"town_effect_value\":2750,\"visual_m_character_id\":5600142,\"current_hp\":(.+?),\"battle_ai_type\":null,\"equip_m_dress_id\":106")
-            str=regex.Replace(str, "\"d_character_serial\":117,\"m_character_id\":5600142,\"level\":90,\"level_limit_break_count\":4,\"hp\":9287,\"attack\":1908,\"defence\":99999,\"clear_ordeal_flag\":3,\"m_weapon_id\":10650050,\"town_effect_value\":2750,\"visual_m_character_id\":5600142,\"current_hp\":9287,\"battle_ai_type\":null,\"equip_m_dress_id\":106");             
+            var regex=new Regex("\"d_character_serial\":117,\"m_character_id\":5600142,\"level\":90,\"level_limit_break_count\":4,\"hp\":(.+?),\"attack\":1908,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":10650050,\"town_effect_value\":2850,\"visual_m_character_id\":5600142,\"current_hp\":(.+?),\"battle_ai_type\":null,\"equip_m_dress_id\":106")
+            str=regex.Replace(str, "\"d_character_serial\":117,\"m_character_id\":5600142,\"level\":90,\"level_limit_break_count\":4,\"hp\":9287,\"attack\":1908,\"defence\":99999,\"clear_ordeal_flag\":3,\"m_weapon_id\":10650050,\"town_effect_value\":2850,\"visual_m_character_id\":5600142,\"current_hp\":9287,\"battle_ai_type\":null,\"equip_m_dress_id\":106");             
+            
             //黑白天鹅
-            var regex=new Regex("\"d_character_serial\":71,\"m_character_id\":5700132,\"level\":90,\"level_limit_break_count\":4,\"hp\":(.+?),\"attack\":1693,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":790104,\"town_effect_value\":2900,\"visual_m_character_id\":5700132,\"current_hp\":(.+?),");
-            str=regex.Replace(str, "\"d_character_serial\":71,\"m_character_id\":5700132,\"level\":90,\"level_limit_break_count\":4,\"hp\":99999,\"attack\":1693,\"defence\":99999,\"clear_ordeal_flag\":3,\"m_weapon_id\":790104,\"town_effect_value\":2900,\"visual_m_character_id\":5700132,\"current_hp\":99999,")
+            var regex=new Regex("\"d_character_serial\":71,\"m_character_id\":5700132,\"level\":90,\"level_limit_break_count\":4,\"hp\":(.+?),\"attack\":1693,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":790104,\"town_effect_value\":3000,\"visual_m_character_id\":5700132,\"current_hp\":(.+?),");
+            str=regex.Replace(str, "\"d_character_serial\":71,\"m_character_id\":5700132,\"level\":90,\"level_limit_break_count\":4,\"hp\":99999,\"attack\":1693,\"defence\":99999,\"clear_ordeal_flag\":3,\"m_weapon_id\":790104,\"town_effect_value\":3000,\"visual_m_character_id\":5700132,\"current_hp\":99999,")
             
             var toEncryptArray = Encoding.UTF8.GetBytes(str);
             cTransform = rDel.CreateEncryptor();
