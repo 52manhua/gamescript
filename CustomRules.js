@@ -968,7 +968,7 @@ commit 不含礼物信息,虽然 无用 ,剔除
             
             //血MM
             var regex=new Regex("31693,20023,20033,20063,31693,");
-            str=regex.Replace(str, "31693,339,20079,20023,20033,20004,20063,31693,");
+            str=regex.Replace(str, "31693,339,20079,20023,20033,20004,20063,31693,20004,");
             
             
             /*弱化对手的hacker*/
@@ -1002,8 +1002,8 @@ commit 不含礼物信息,虽然 无用 ,剔除
             str=regex.Replace(str, "\"hp\":5808,\"attack\":2144,\"defence\":99999,\"clear_ordeal_flag\":3,\"m_weapon_id\":260011,\"town_effect_value\":3000,\"visual_m_character_id\":5200122,\"current_hp\":11324,"); 
             
             //混沌爱丽丝
-            var regex=new Regex("\"d_character_serial\":117,\"m_character_id\":5600142,\"level\":90,\"level_limit_break_count\":4,\"hp\":(.+?),\"attack\":1908,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":10650050,\"town_effect_value\":2850,\"visual_m_character_id\":5600142,\"current_hp\":(.+?),\"battle_ai_type\":null,\"equip_m_dress_id\":106")
-            str=regex.Replace(str, "\"d_character_serial\":117,\"m_character_id\":5600142,\"level\":90,\"level_limit_break_count\":4,\"hp\":9287,\"attack\":1908,\"defence\":99999,\"clear_ordeal_flag\":3,\"m_weapon_id\":10650050,\"town_effect_value\":2850,\"visual_m_character_id\":5600142,\"current_hp\":9287,\"battle_ai_type\":null,\"equip_m_dress_id\":106");             
+            var regex=new Regex("\"d_character_serial\":117,\"m_character_id\":5600142,\"level\":90,\"level_limit_break_count\":4,\"hp\":(.+?),\"attack\":1908,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":10650050,\"town_effect_value\":2900,\"visual_m_character_id\":5600142,\"current_hp\":(.+?),\"battle_ai_type\":null,\"equip_m_dress_id\":106")
+            str=regex.Replace(str, "\"d_character_serial\":117,\"m_character_id\":5600142,\"level\":90,\"level_limit_break_count\":4,\"hp\":9287,\"attack\":1908,\"defence\":99999,\"clear_ordeal_flag\":3,\"m_weapon_id\":10650050,\"town_effect_value\":2900,\"visual_m_character_id\":5600142,\"current_hp\":9287,\"battle_ai_type\":null,\"equip_m_dress_id\":106");             
             
             //黑白天鹅
             var regex=new Regex("\"d_character_serial\":71,\"m_character_id\":5700132,\"level\":90,\"level_limit_break_count\":4,\"hp\":(.+?),\"attack\":1693,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":790104,\"town_effect_value\":3000,\"visual_m_character_id\":5700132,\"current_hp\":(.+?),");
