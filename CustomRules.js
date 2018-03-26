@@ -175,7 +175,7 @@ class Handlers
         if (oSession["X-ClientIP"] == "::ffff:192.168.1.189"){
             //MessageBox.Show("Trill ~");
             //oSession.oRequest.FailSession(403,"NULL","NULL");
-            }
+        }
         
         if ((null != gs_ReplaceToken) && (oSession.url.indexOf(gs_ReplaceToken)>-1)) {   // Case sensitive
             oSession.url = oSession.url.Replace(gs_ReplaceToken, gs_ReplaceTokenWith); 
@@ -299,78 +299,78 @@ class Handlers
         
         ///birdfly/commit 愤怒小鸟 hack
         if(oSession.fullUrl.IndexOf("birdfly/commit") != -1) {
-            var bytes = oSession.requestBodyBytes;
-            var paddinglen = 32 - (bytes.Length % 32);
-            var buffer = new Byte[bytes.Length + paddinglen];
-            bytes.CopyTo(buffer, 0);
-            var rDel = new RijndaelManaged();
-            rDel.Key = key;
-            rDel.Mode = CipherMode.CFB;
-            rDel.Padding = PaddingMode.Zeros;
-            rDel.IV = IV;
-            var cTransform = rDel.CreateDecryptor();
-            var resultArray = cTransform.TransformFinalBlock(buffer, 0, buffer.Length);
-            var buffer2 = new Byte[bytes.Length];
-            System.Array.Copy(resultArray, buffer2, bytes.Length);
-            var str = Encoding.UTF8.GetString(buffer2);
+        var bytes = oSession.requestBodyBytes;
+        var paddinglen = 32 - (bytes.Length % 32);
+        var buffer = new Byte[bytes.Length + paddinglen];
+        bytes.CopyTo(buffer, 0);
+        var rDel = new RijndaelManaged();
+        rDel.Key = key;
+        rDel.Mode = CipherMode.CFB;
+        rDel.Padding = PaddingMode.Zeros;
+        rDel.IV = IV;
+        var cTransform = rDel.CreateDecryptor();
+        var resultArray = cTransform.TransformFinalBlock(buffer, 0, buffer.Length);
+        var buffer2 = new Byte[bytes.Length];
+        System.Array.Copy(resultArray, buffer2, bytes.Length);
+        var str = Encoding.UTF8.GetString(buffer2);
             
-            var torep=""
-            switch(birdp){
-                case 9:
-                    torep="\"target_serial_list\":[1,2,3,4,5,6,7,8,9]";
-                    break;
-                case 10:
-                    torep="\"target_serial_list\":[1,2,3,4,5,6,7,8,9,10]"
-                    break;
-                default:
-                    MessageBox.Show("Nothing","获得");
-                    torep="\"target_serial_list\":[1,2,3,4,5,6,7,8,9]";
-                    break;
-            }
-            //replace value
-            regex = new Regex("\"target_serial_list\":(.+?)]");
-            str = regex.Replace(str, torep);
+        var torep=""
+        switch(birdp){
+        case 9:
+        torep="\"target_serial_list\":[1,2,3,4,5,6,7,8,9]";
+        break;
+        case 10:
+        torep="\"target_serial_list\":[1,2,3,4,5,6,7,8,9,10]"
+        break;
+        default:
+        MessageBox.Show("Nothing","获得");
+        torep="\"target_serial_list\":[1,2,3,4,5,6,7,8,9]";
+        break;
+        }
+        //replace value
+        regex = new Regex("\"target_serial_list\":(.+?)]");
+        str = regex.Replace(str, torep);
             
-            var toEncryptArray = Encoding.UTF8.GetBytes(str);
-            cTransform = rDel.CreateEncryptor();
-            resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
-            buffer2 = new Byte[toEncryptArray.Length];
-            System.Array.Copy(resultArray, buffer2, toEncryptArray.Length);
-            oSession.RequestBody = buffer2;
+        var toEncryptArray = Encoding.UTF8.GetBytes(str);
+        cTransform = rDel.CreateEncryptor();
+        resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+        buffer2 = new Byte[toEncryptArray.Length];
+        System.Array.Copy(resultArray, buffer2, toEncryptArray.Length);
+        oSession.RequestBody = buffer2;
         }
         
                 
         ///shop hack
         if(oSession.fullUrl.IndexOf("shop/execute") != -1) {
-            getkey();
+        getkey();
             
-            var bytes = oSession.requestBodyBytes;
-            var paddinglen = 32 - (bytes.Length % 32);
-            var buffer = new Byte[bytes.Length + paddinglen];
-            bytes.CopyTo(buffer, 0);
-            var rDel = new RijndaelManaged();
-            rDel.Key = key;
-            rDel.Mode = CipherMode.CFB;
-            rDel.Padding = PaddingMode.Zeros;
-            rDel.IV = IV;
-            var cTransform = rDel.CreateDecryptor();
-            var resultArray = cTransform.TransformFinalBlock(buffer, 0, buffer.Length);
-            var buffer2 = new Byte[bytes.Length];
-            System.Array.Copy(resultArray, buffer2, bytes.Length);
-            var str = Encoding.UTF8.GetString(buffer2);
+        var bytes = oSession.requestBodyBytes;
+        var paddinglen = 32 - (bytes.Length % 32);
+        var buffer = new Byte[bytes.Length + paddinglen];
+        bytes.CopyTo(buffer, 0);
+        var rDel = new RijndaelManaged();
+        rDel.Key = key;
+        rDel.Mode = CipherMode.CFB;
+        rDel.Padding = PaddingMode.Zeros;
+        rDel.IV = IV;
+        var cTransform = rDel.CreateDecryptor();
+        var resultArray = cTransform.TransformFinalBlock(buffer, 0, buffer.Length);
+        var buffer2 = new Byte[bytes.Length];
+        System.Array.Copy(resultArray, buffer2, bytes.Length);
+        var str = Encoding.UTF8.GetString(buffer2);
                         
-            //MessageBox.Show(str.substr(str.length-10));
+        //MessageBox.Show(str.substr(str.length-10));
             
-            //replace 商品数量,num * 10 的数量
-            regex = new Regex("\"num\":(.+?),");
-            str = regex.Replace(str, "\"num\":20,");
+        //replace 商品数量,num * 10 的数量
+        regex = new Regex("\"num\":(.+?),");
+        str = regex.Replace(str, "\"num\":20,");
             
-            var toEncryptArray = Encoding.UTF8.GetBytes(str);
-            cTransform = rDel.CreateEncryptor();
-            resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
-            buffer2 = new Byte[toEncryptArray.Length];
-            System.Array.Copy(resultArray, buffer2, toEncryptArray.Length);
-            oSession.RequestBody = buffer2;
+        var toEncryptArray = Encoding.UTF8.GetBytes(str);
+        cTransform = rDel.CreateEncryptor();
+        resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+        buffer2 = new Byte[toEncryptArray.Length];
+        System.Array.Copy(resultArray, buffer2, toEncryptArray.Length);
+        oSession.RequestBody = buffer2;
         }///end shop hack
  
                 
@@ -639,7 +639,7 @@ class Handlers
             System.Array.Copy(resultArray, buffer2, toEncryptArray.Length);
             oSession.ResponseBody = buffer2;
         }     
-/*抽奖修改*/
+        /*抽奖修改*/
         if(oSession.fullUrl.IndexOf("api/gacha/execute") != -1){
 
             getkey();
@@ -733,7 +733,7 @@ commit 不含礼物信息,虽然 无用 ,剔除
             tf.Close();
             */
             
-            }
+        }
         
   /*
 /
