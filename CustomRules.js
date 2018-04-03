@@ -912,7 +912,7 @@ commit 不含礼物信息,虽然 无用 ,剔除
         
         
         
-        /* 修改 竞技场
+        /* 修改 竞技场#jjc
         /
         /
         /pvp https://app.grimmsnotes.jp/api/pvp/battle/start
@@ -974,6 +974,10 @@ commit 不含礼物信息,虽然 无用 ,剔除
             var regex=new Regex("31693,20023,20033,20063,31693,");
             str=regex.Replace(str, "31693,339,20079,20023,20033,20004,20063,31693,");
             
+            //时空魔女
+            var regex=new Regex("31663,103,31663,93,10002,31663,31663,31663,31663,31663,65535");
+            str=regex.Replace(str, "20004,31663,103,31663,93,10002,31663,31663,31663,31663,31663,65535");
+            
             
             /*弱化对手的hacker*/
             //"m_character_id" : 15600082,
@@ -1012,6 +1016,11 @@ commit 不含礼物信息,虽然 无用 ,剔除
             //黑白天鹅
             var regex=new Regex("\"d_character_serial\":71,\"m_character_id\":5700132,\"level\":90,\"level_limit_break_count\":4,\"hp\":(.+?),\"attack\":1693,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":790104,\"town_effect_value\":3000,\"visual_m_character_id\":5700132,\"current_hp\":(.+?),");
             str=regex.Replace(str, "\"d_character_serial\":71,\"m_character_id\":5700132,\"level\":90,\"level_limit_break_count\":4,\"hp\":99999,\"attack\":1693,\"defence\":99999,\"clear_ordeal_flag\":3,\"m_weapon_id\":790104,\"town_effect_value\":3000,\"visual_m_character_id\":5700132,\"current_hp\":99999,")
+
+            //时空魔女
+            var regex=new Regex("\"d_character_serial\":170,\"m_character_id\":5700312,\"level\":90,\"level_limit_break_count\":4,\"hp\":4200,\"attack\":1993,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":790408,\"town_effect_value\":3000,\"visual_m_character_id\":5700312,\"current_hp\":7560,");
+            str=regex.Replace(str, "\"d_character_serial\":170,\"m_character_id\":5700312,\"level\":90,\"level_limit_break_count\":4,\"hp\":4200,\"attack\":1993,\"defence\":99999,\"clear_ordeal_flag\":3,\"m_weapon_id\":790408,\"town_effect_value\":3000,\"visual_m_character_id\":5700312,\"current_hp\":7560,")
+            
             
             var toEncryptArray = Encoding.UTF8.GetBytes(str);
             cTransform = rDel.CreateEncryptor();
