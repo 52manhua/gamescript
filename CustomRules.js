@@ -957,8 +957,11 @@ commit 不含礼物信息,虽然 无用 ,剔除
             str=regex.Replace(str, "hp\":4368,\"attack\":1056,\"defence\":99999,");
             
             //skill hack
-            var regex=new Regex("60031,31992,31983,31693,");
-            str=regex.Replace(str, "60031,31992,20004,31983,31693,");
+            //var regex=new Regex("60031,31992,31983,31693,");
+            //str=regex.Replace(str, "60031,31992,20004,31983,31693,");
+            //有时候会有临时的技能变化
+            //65806 限制时间缩短，攻击上升，回复量减少
+            
             //,31693,20023,20033,20063,31693,
             var regex=new Regex("31693,20023,20033,20063,31693,");
             str=regex.Replace(str, "31693,20023,20033,20004,40010,60031,20063,31693,");
@@ -967,12 +970,16 @@ commit 不含礼物信息,虽然 无用 ,剔除
             str=regex.Replace(str, "31693,31673,20004,20043,20033,20023,31693,");
             
             //dull alice skill
-            var regex=new Regex("\\[103,31658,65535,51\\],\"");
+            var regex=new Regex("\\[103,31658,65535,65806,51\\],\"");
             str=regex.Replace(str, "[533,103,339,20004,31658,51,65535,31983,43,489],\""); 
             
             //血MM
-            var regex=new Regex("\\[123,63,322,31993,31972,31992,20023,31992,31972,65535,65750,65751,65752\\],\"");
+            var regex=new Regex("\\[123,63,322,31993,31972,31992,20023,31992,31972,65535,65806\\],\"");
             str=regex.Replace(str, "[533,397,123,63,31993,31972,31992,31972,65535,31693,65750,65751,65752,339,20079,20023,20033,20004,20063,31693],\"");
+            
+            //弓箭造物主
+            var regex=new Regex("\\[133,239691,65535,65806,31691\\],\"");
+            str=regex.Replace(str, "[339,533,397,133,239691,65535,65806,31691,20004,20063,31693],\"");
             
             //时空魔女
             var regex=new Regex("31663,103,31663,93,10002,31663,31663,31663,31663,31663,65535");
@@ -1025,6 +1032,9 @@ commit 不含礼物信息,虽然 无用 ,剔除
             var regex=new Regex("\"d_character_serial\":170,\"m_character_id\":5700312,\"level\":90,\"level_limit_break_count\":4,\"hp\":4200,\"attack\":1993,\"defence\":9,\"clear_ordeal_flag\":3,\"m_weapon_id\":790408,\"town_effect_value\":3000,\"visual_m_character_id\":5700312,\"current_hp\":7560,");
             str=regex.Replace(str, "\"d_character_serial\":170,\"m_character_id\":5700312,\"level\":90,\"level_limit_break_count\":4,\"hp\":4200,\"attack\":1993,\"defence\":99999,\"clear_ordeal_flag\":3,\"m_weapon_id\":790408,\"town_effect_value\":3000,\"visual_m_character_id\":5700312,\"current_hp\":7560,")
             
+            //弓造物
+            var regex=new Regex("\"d_character_serial\":205,\"m_character_id\":5800212,\"level\":90,\"level_limit_break_count\":4,\"hp\":5728,\"attack\":2795,\"defence\":9,");
+            str=regex.Replace(str, "\"d_character_serial\":205,\"m_character_id\":5800212,\"level\":90,\"level_limit_break_count\":4,\"hp\":5728,\"attack\":2795,\"defence\":99999,")
             
             var toEncryptArray = Encoding.UTF8.GetBytes(str);
             cTransform = rDel.CreateEncryptor();
